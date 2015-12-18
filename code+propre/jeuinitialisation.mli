@@ -1,5 +1,5 @@
 (*====================Type du jeu====================*)
-type plateaujoueur = {grille : char array array; mutable numLigne : int; mutable fini : bool;}
+type plateaujoueur = {grille : char array array; mutable numLigne : int;}
 type joueur = {mutable nom : string; mutable plateau : plateaujoueur; mutable score : int; mutable lettre : char list;}
 type partie = {mutable pioche : Lapioche.piocheJeu; mutable tour : int; mutable joueur1 : joueur; mutable joueur2 : joueur; mutable numJoueurTour : int}
 
@@ -53,11 +53,23 @@ val coupJanac : joueur -> joueur -> unit
 val scoreJoueur : joueur -> unit
 
 val resultat : partie -> unit
+
 (*================== Sauvegarde ==================*)
+val sauvegarder : partie -> bool
+
+val ecrirePlateau : plateaujoueur -> out_channel -> unit
+
+val ecrireJoueur : joueur -> out_channel -> unit
+
+val ecrirePartie : partie -> out_channel -> unit
+
+val sauvegarde : partie -> string -> unit
+
+(*================== Charger ==================*)
 val charger : unit -> partie
 
-val sauvegarder : unit -> bool
 (*======================Jeu======================*)
-val premierTour : partie -> unit
+val premierTour : partie -> bool
 
-val nEmeTour : partie -> unit
+val nEmeTour : partie -> bool
+

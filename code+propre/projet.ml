@@ -11,13 +11,13 @@ type partie = {mutable pioche : piocheJeu; mutable tour : int; mutable joueur1 :
 let partieJanac = Jeuinitialisation.charger ()
 
 (*PREMIER TOUR*)
-let _ = Jeuinitialisation.premierTour partieJanac
+let b1 = if partieJanac.tour = 0 then Jeuinitialisation.premierTour partieJanac else false
 
 (*N TOUR*)
-let _ = Jeuinitialisation.nEmeTour partieJanac
+let b2 = if b1 = false then Jeuinitialisation.nEmeTour partieJanac else true
 
 (*Resultat*)
-let _ = Jeuinitialisation.resultat partieJanac 
+let _ = if b2 = false then Jeuinitialisation.resultat partieJanac  else ()
 
 (*
 
