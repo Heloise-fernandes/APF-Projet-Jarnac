@@ -1,4 +1,0 @@
-type joueur = {nom : string; score : int; lettre : char list;};;
-let j =  {nom = "joueurtest"; score = 0; lettre = ['a';'a'];};;
-j.lettre;;
-let l = ['b'] in j.lettre <- l;;

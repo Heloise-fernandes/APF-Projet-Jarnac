@@ -1,12 +1,11 @@
-(*====================Type du jeu====================*)
+(*=================== Type du jeu ===================*)
 type plateaujoueur = {grille : char array array; mutable numLigne : int;}
 type joueur = {mutable nom : string; mutable plateau : plateaujoueur; mutable score : int; mutable lettre : char list;}
 type partie = {mutable pioche : Lapioche.piocheJeu; mutable tour : int; mutable joueur1 : joueur; mutable joueur2 : joueur; mutable numJoueurTour : int}
 
-
 let dico = Complements.charge_dico
 
-(*================Action du Dico================*)
+(*================== Action du Dico =================*)
 let estDansDictionnaire m = let mot = String.uppercase m in Dictionnaire.member mot dico
 
 (*================Initialisation du jeu================*)
@@ -18,8 +17,7 @@ let nouvellePartie () =
 	let (n1,n2) = Interaction.demanderNoms () in 
 	{pioche = Lapioche.melanger (Lapioche.creerPioche Lapioche.laPiocheDebut);tour = 0;joueur1 = ajouterUnJoueur n1; joueur2 = ajouterUnJoueur n2;numJoueurTour = 1}
 
-(*=================Action jeu================*)
-(*AJoute le mot au tableau*)
+(*==================== Action jeu ===================*)
 let ajoutMotTab j m  i = 
 	let rec ajouterMot tab mot i = 
 		if i = (String.length mot) then ()
@@ -60,17 +58,13 @@ else
 		else demanderChoixAction j
 	else ()
 
-
-(*==================Jarnac==================*)
-
-(*Cette fonction permet de supprimer le mot volé dans le tableau*)
+(*====================== Jarnac =====================*)
 let rec miseAjourAnarc j i = 
 	if ((i+1) = j.plateau.numLigne) then 
 		let _ = j.plateau.grille.(i)<-j.plateau.grille.(j.plateau.numLigne) in j.plateau.numLigne <- i 
 	else 
 		let _ = j.plateau.grille.(i)<-j.plateau.grille.(i+1) in miseAjourAnarc j (i+1)
 		
-(*Ajoute le mot au tableau du joueur 2 et supprime les lettres de la main du joueur1*)
 let ajoutMotJarnac j1 j2 m = 
 	let rec ajouterMot tab mot i = 
 		if i = (String.length mot) then ()
@@ -81,7 +75,6 @@ let ajoutMotJarnac j1 j2 m =
 	let _ = ajouterMot (j2.plateau.grille.(j2.plateau.numLigne)) m 0 in 
 	let _ = j2.plateau.numLigne<-j2.plateau.numLigne +1 in ()
 
-(*Cette fonction definis si le joueur veux ou non jouer un coup de jarnac*)
 let rec coupJanac j1 j2 =  
 	let _ = (Affichage.printLettreTab j1.plateau.grille j1.lettre) in 
 	if Interaction.demanderJarnac () then
@@ -91,15 +84,14 @@ let rec coupJanac j1 j2 =
 		else let _ = Affichage.printmotInvalide () in coupJanac j1 j2
 	else ()																				
 
-(*================Action ===============*)
+(*================== Action piocher =================*)
 let jouersansEchange j pioche =
 	let (lettreEnplus, nvPioche1) = (Lapioche.piocher pioche 1) in 
 	let _ = j.lettre <- lettreEnplus@j.lettre in 
 	let _= (Affichage.printLettreTab j.plateau.grille j.lettre) in
 	let _ = demanderChoixAction j in nvPioche1
 
-(*-----------Action piocher Echange----------*)
-
+(*------------- Action piocher Echange --------------*)
 	let rec actionEchangerUnelettre j =
 		let l1 = Interaction.demander3LettresEchanger j.lettre in  
 		if (String.length l1 = 3)&&(Fonctiondebases.peutCreerUnMot j.lettre (l1)) then
@@ -112,8 +104,7 @@ let jouersansEchange j pioche =
 		let _= (Affichage.printLettreTab j.plateau.grille j.lettre) in
 		let _ = demanderChoixAction j in nvPioche1
 
-	
-(*-------------Action piocher 1--------------*)
+(*-------------- Action piocher Tour1 ---------------*)
 	let jouerPiocherTour1 j pioche = 
 		let rec creer j droit=  
 			let b = former j in
@@ -135,7 +126,8 @@ let jouersansEchange j pioche =
 			let _ = j.lettre <- liste in 
 			let _= (Affichage.printGrille j.plateau.grille) in 
 			let b = creer j false in nvPioche2
-(*-----------------schema -------------------*)		
+			
+(*-------------------- schema -----------------------*)		
 	let schemaExecutionTourN j pioche = 
 		let _ = Affichage.printNom j.nom in
 		let _= (Affichage.printLettreTab j.plateau.grille j.lettre) in
@@ -147,8 +139,7 @@ let jouersansEchange j pioche =
 		let _ = Affichage.printNom j.nom in
 		let nvPioche1 = jouerPiocherTour1 j pioche in jouersansEchange j nvPioche1
 
-(*================Calcul des Scores================*)
-
+(*================ Calcul des Scores ================*)
 let scoreJoueur j = 
 	let rec getScore tab i= 
 		let rec getScoreLigne i t = 
@@ -169,7 +160,7 @@ let resultat p =
 		let s2 = p.joueur2.score in Affichage.printScore s1 s2
 	else ()
 	
-(*================== Charger ==================*)
+(*===================== Charger =====================*)
 let chargement n = let (p,t,nomj1,numLigne1,tab1,score1,main1,nomj2,numLigne2,tab2,score2,main2,numJ , b) = Chargement.chargerPartie n in
 if b = false then nouvellePartie ()
 else 
@@ -189,7 +180,7 @@ let rec charger () =
 		else chargement sauv
 
 
-(*================== Sauvegarde ==================*)
+(*==================== Sauvegarde ===================*)
 let ecrirePlateau p fich =
 	let g = p.grille in
 	let nbligne = Array.length g in
@@ -234,13 +225,12 @@ let sauvegarder p =
 	if sauv = " " then false 
 	else let _ = sauvegarde p sauv in true
 
-(*======================Jeu======================*)
-
-let premierTour p = 
+(*======================= Jeu =======================*)
+let rec premierTour p = 
 	if p.numJoueurTour = 1 then 
 	let _ = p.pioche <- schemaExecutionTourUn p.joueur1 p.pioche in
 	let _ = coupJanac p.joueur1 p.joueur2 in
-	let _ = p.numJoueurTour <- passer p.numJoueurTour in let b = sauvegarder p in b
+	let _ = p.numJoueurTour <- passer p.numJoueurTour in let b = sauvegarder p in if b = false then premierTour p else b
 	else 
 	let _ = p.pioche <- schemaExecutionTourUn p.joueur2 p.pioche in
 	let _ = coupJanac  p.joueur2 p.joueur1  in

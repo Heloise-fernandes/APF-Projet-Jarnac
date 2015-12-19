@@ -1,10 +1,10 @@
 # BUILD RULES
-all: projet
+all: jeu
 
-projet: jeuinitialisation.cmo chargement.cmo dictionnaire.cmo complements.cmo fonctiondebases.cmo affichage.cmo interaction.cmo lapioche.cmo projet.cmo
-	ocamlc affichage.cmo chargement.cmo interaction.cmo fonctiondebases.cmo dictionnaire.cmo complements.cmo lapioche.cmo jeuinitialisation.cmo projet.cmo -o projet
+jeu: jeu.cmo chargement.cmo dictionnaire.cmo complements.cmo fonctiondebases.cmo affichage.cmo interaction.cmo lapioche.cmo projet.cmo
+	ocamlc affichage.cmo chargement.cmo interaction.cmo fonctiondebases.cmo dictionnaire.cmo complements.cmo lapioche.cmo jeu.cmo projet.cmo -o jeu
 
-projet.cmo: projet.ml chargement.cmo dictionnaire.cmo complements.cmo fonctiondebases.cmo affichage.cmo interaction.cmo jeuinitialisation.cmo lapioche.cmo
+projet.cmo: projet.ml chargement.cmo dictionnaire.cmo complements.cmo fonctiondebases.cmo affichage.cmo interaction.cmo jeu.cmo lapioche.cmo
 	ocamlc -c projet.ml
 
 lapioche.cmi: lapioche.mli
@@ -49,11 +49,11 @@ chargement.cmi: chargement.mli affichage.cmi
 chargement.cmo:	chargement.ml chargement.cmi affichage.cmo
 	ocamlc -c -pp camlp4o chargement.ml
 	
-jeuinitialisation.cmi: jeuinitialisation.mli chargement.cmi dictionnaire.cmi complements.cmi fonctiondebases.cmi interaction.cmi affichage.cmi lapioche.cmi
-	ocamlc -c jeuinitialisation.mli
+jeu.cmi: jeu.mli chargement.cmi dictionnaire.cmi complements.cmi fonctiondebases.cmi interaction.cmi affichage.cmi lapioche.cmi
+	ocamlc -c jeu.mli
 	
-jeuinitialisation.cmo: lapioche.cmo chargement.cmo fonctiondebases.cmo complements.cmo dictionnaire.cmo interaction.cmo affichage.cmo jeuinitialisation.ml jeuinitialisation.cmi 
-	ocamlc -c jeuinitialisation.ml
+jeu.cmo: lapioche.cmo chargement.cmo fonctiondebases.cmo complements.cmo dictionnaire.cmo interaction.cmo affichage.cmo jeu.ml jeu.cmi 
+	ocamlc -c jeu.ml
 
 
 

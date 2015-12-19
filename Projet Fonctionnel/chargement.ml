@@ -11,10 +11,10 @@ let rec chargePioche = parser
 	    |[<''!'; s >]->([], s)						   
         |[<>]->([],[<>]);;
   
-let rec chargeTour = parser
-		|[<''0'..'9' as c  ; a = chargeTour>]-> let (q,p) = a in (digit c, p)
-		|[<'' ' ; a = chargeTour>]-> a							   
-		|[<''!'; s >]->(0, s)						   
+let rec chargeTour n = parser
+		|[<''0'..'9' as c  ; a = chargeTour (10*n + digit c)>]-> let (q,p) = a in ( q, p)
+		|[<'' ' ; a = chargeTour n >]-> a							   
+		|[<''!'; s >]->(n, s)						   
         |[<>]->(0,[<>])
 
   
@@ -63,7 +63,7 @@ let chargerPartie nom =
 		let contenu = input_line fich in
 		let stream = Stream.of_string contenu in
 		let (pioche, s1) = chargePioche stream in
-		let (tour,s2) = chargeTour s1 in
+		let (tour,s2) = chargeTour 0 s1 in
 		let (nomj1,s3) = chargeNomjoueur s2 in
 		let (numLigne1,listab1,s4) = chargeTabEtLigne s3 in
 		let (score1,main1,s5) = chargeScorePlusMain s4 in

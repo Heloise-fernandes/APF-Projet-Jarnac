@@ -45,4 +45,4 @@
 
 	let printPasSauvegarde () = print_string ("Il n'y a pas de sauvegarde avec ce nom dans le dossier.Création d'une nouvelle partie");print_newline ()
 	
-	let printStop () = print_string ("");print_newline ()
+	

@@ -9,5 +9,5 @@ val chargeTabEtLigne : char Stream.t -> int * char list * char Stream.t
 val chargeScorePlusMain : char Stream.t -> int * char list * char Stream.t
 val chargeNumJ: char Stream.t -> int * char Stream.t
 val remplirtab : char list -> char array array
-val chargerPartie : string -> char list*int*string*int*char array array*int*char list*string*int*char array array*int*char list*int
+val chargerPartie : string -> char list*int*string*int*char array array*int*char list*string*int*char array array*int*char list*int * bool
 					        
